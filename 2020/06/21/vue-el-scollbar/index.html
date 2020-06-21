@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        xiaofei&#39;s blog
+        el隐藏组件el-scrollbar｜xiaofei&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://haojen.github.io/archives/2020/06/">
+    <link rel="canonical" href="http://haojen.github.io/2020/06/21/vue-el-scollbar/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -49,7 +49,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -138,208 +138,143 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="img/header.jpg"/>
-                        <h5><a>Xiaofei</a></h5>
-                        <p>创造价值,绘画人生</p>
+
+<img class="wechat-title-img"
+     src="/img/default-image.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/default-image.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>el隐藏组件el-scrollbar</h1>
+                    
+                    <span class="meta">
+                         作者 Xiaofei
+                        <span>
+                          日期 2020-06-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#vue"
+                           title="vue">vue</a>
+                        
+						<br/><span id="busuanzi_container_page_pv" style="display:none;">阅读量：
+<span id="busuanzi_value_page_pv"></span>次</span>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
-
-
-
-<div class="post-preview "
-     style="background-image: url('/img/default-image.jpg')">
-    <a href="/2020/06/21/vue-el-scollbar/">
-        <h2 class="post-title">
+    <div class="post-title-haojen">
+        <span>
             el隐藏组件el-scrollbar
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-21
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                el-scrollbar隐藏滚动条el-scrollbar是el-element提供的一个组件，但官方文档中并没有提及,所以在这里记录一下，但是确实有这个组件，我在写菜单筛选时有了这个需求，所以就用到了该组件
-&lt;template&gt;    &lt;div id&#x3D;&quot;t..
-            </p>
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="el-scrollbar隐藏滚动条"><a href="#el-scrollbar隐藏滚动条" class="headerlink" title="el-scrollbar隐藏滚动条"></a>el-scrollbar隐藏滚动条</h2><p>el-scrollbar是el-element提供的一个组件，但官方文档中并没有提及,所以在这里记录一下，但是确实有这个组件，我在写菜单筛选时有了这个需求，所以就用到了该组件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;test&quot; &gt;</span><br><span class="line">      &lt;div style&#x3D;&quot;width: 50px&quot;&gt;</span><br><span class="line">        &lt;el-scrollbar class&#x3D;&#39;page-component__scroll&#39;&gt;&lt;span&gt;这是一段测试用的语句&lt;&#x2F;span&gt;&lt;&#x2F;el-scrollbar&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;test&#39;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&#x2F;*为了隐藏Scrollbar的滚动条*&#x2F;</span><br><span class="line">.is-horizontal &#123;    </span><br><span class="line">    display: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.el-scrollbar__wrap &#123;</span><br><span class="line">    overflow-x: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.page-component__scroll&#123;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br><span class="line">.page-component__scroll .el-scrollbar__wrap &#123;</span><br><span class="line">    overflow-x: scroll;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中height是必须设置的。实际情况看需求，其他的css样式目的在于隐藏scollbar的滚动条，建议将该样式放到自定义全局css中或者非scoped得<style>中。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/06/18/浅谈HTTP/" data-toggle="tooltip" data-placement="top"
+                           title="浅谈HTTP">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#el-scrollbar隐藏滚动条"><span class="toc-text">el-scrollbar隐藏滚动条</span></a></li></ol>
+                </div>
+            </div>
         </div>
-    </a>
 
-</div>
+        <div class="row">
+            <!-- Sidebar Container -->
 
-<hr>
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
-
-
-<div class="post-preview "
-     style="background-image: url('/img/http-header.jpg')">
-    <a href="/2020/06/18/浅谈HTTP/">
-        <h2 class="post-title">
-            浅谈HTTP
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-18
-        </p>
-        
-        <h3 class="post-subtitle">
-            hi, I'm xiaofei
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                简介HTTP协议是Hyper Text Transfer Protocol（超文本传输协议）的缩写,是用于从万维网（WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。
-HTTP是一个基于TCP/IP通信协议来传递数据（HTML 文件, 图片文件, 查询结果等）。
-H..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
-</ul>
-
-
-        </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="img/header.jpg"/>
-                    
-					<!--去掉了关于的href-->
-                    <h5><a>Xiaofei</a></h5>
-                    
-                    <p>创造价值,绘画人生</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#vue"
+                           title="vue">vue</a>
                         
-                        <li>
-                            <a target="_blank" href="https://twitter.com/tom">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-                        
-                        <li>
-                            <a target="_blank" href="https://www.zhihu.com/people/xiao-bai-xian-sen-12">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                        </span>
-                            </a>
-                        </li>
-                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="http://weibo.com/xiaofei">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
-                        
-
-                        
-                        <li>
-                            <a target="_blank" href="https://github.com/xiaofeixx">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="https://juejin.im/user/5dcea6cee51d45081b430994" target="_blank" rel="noopener">掘金</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#vue" title="vue"
-                       rel="1">vue</a>
-                    
-                    
-                    
-                    <a href="/tags/#http" title="http"
-                       rel="1">http</a>
-                    
-                    
-                    
-                    <a href="/tags/#web" title="web"
-                       rel="1">web</a>
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="https://juejin.im/user/5dcea6cee51d45081b430994" target="_blank">掘金</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->

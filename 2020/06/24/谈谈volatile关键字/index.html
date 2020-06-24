@@ -86,7 +86,7 @@
                         
 							
                         <li>
-                            <a href="/Works/">作品</a>
+                            <a href="/Tags/">标签</a>
                         </li>
 							
 						
@@ -94,7 +94,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">标签</a>
+                            <a href="/Works/">作品</a>
                         </li>
 							
 						
@@ -197,7 +197,7 @@
 <li>保证不同线程对变量操作的内存可见性</li>
 <li>禁止内存重排序</li>
 </ol>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h3><p><img src="/img%5Cvolatile-cache1.jpg" alt="volatile-cache1"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h3><p><img src="/img/volatile-cache1.jpg" alt="volatile-cache1"></p>
 <p>有了高速缓存后，每个CPU处理过程变成这样：先将计算机需要用到的数据缓存在CPU高速缓存中，在CPU进行计算时，直接从高速缓存中读取数据并且计算完成之后写到缓存中，在整个运算完成后，再把缓存中的数据同步到内存。</p>
 <p>由于在多CPU中，每个线程可能会运行在不同的CPU中，并且每个线程都有自己的高速缓存，同一份数据可能会被缓存到多个CPU中，如果在不同CPU中运行的不同线程看到同一份内存的缓存值不一样，就会存在缓存不一致的问题。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ol>
@@ -205,7 +205,7 @@
 <li>缓存锁</li>
 </ol>
 <p>总线锁开销较大，所以需要优化，最好的方法就是控制锁的粒度，我们只需要保证，对于被多个CPU缓存的同一份数据是一致的就行，所以引入了缓存锁，他的核心机制就是缓存一致性协议。</p>
-<p><img src="/img%5Cvolatile-cache2.jpg" alt="volatile-cache2"></p>
+<p><img src="/img/volatile-cache2.jpg" alt="volatilecache2"></p>
 <h3 id="缓存一致性协议"><a href="#缓存一致性协议" class="headerlink" title="缓存一致性协议"></a>缓存一致性协议</h3><p>常见的协议有，MSI，MESI,MOSI等等，最常见的就是MESI协议；</p>
 <p>MESI表示缓存行的四种状态，分别是：</p>
 <p>  M（modify）表示共享数据只缓存当前CPU缓存中，并且是被修改状态，也就是缓存的数据和主内存中的数据不一致。</p>

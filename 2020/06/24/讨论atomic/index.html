@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="dsadasdasdasdasdasdasdasdsadasdas">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/header.jpg">
+    <link rel="alternate" type="application/atom+xml" title="xiaofei" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        聊聊atomic｜xiaofei&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://haojen.github.io/2020/06/24/讨论atomic/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    xiaofei
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">标签</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Works/">作品</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/img/default-image.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/default-image.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>聊聊atomic</h1>
+                    
+                    <span class="meta">
+                         作者 Xiaofei
+                        <span>
+                          日期 2020-06-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#java"
+                           title="java">java</a>
+                        
+						<br/><span id="busuanzi_container_page_pv" style="display:none;">阅读量：
+<span id="busuanzi_value_page_pv"></span>次</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            聊聊atomic
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>在并发编程中容易出现线程安全问题,最简单的例子就是i++，当多线程操作时获取的值会有偏差，这个问题最常用的方法是使用synchronized来解决线程安全问题。但是由于synchronized采用的是悲观锁的策略，并不是特别高效的解决方案，在JUC下的atomic包下提供了简单高效，保证线程安全的类去解决基本类型变量，数组元素，引用类型，以及更新字段中的类型。atomic下的类都是采用乐观锁的策略去原子更新数据，java中采用CAS操作实现.</p>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p>全称Compare and swap，字面意思:”比较并交换“，一个 CAS 涉及到以下操作：</p>
+<blockquote>
+<p>我们假设内存中的原数据V，旧的预期值A，需要修改的新值N。</p>
+<ol>
+<li>比较A和V是否相等。</li>
+<li>如果比较相等，将N写入V。</li>
+<li>返回操作是否成功。</li>
+</ol>
+</blockquote>
+<h3 id="CAS实现"><a href="#CAS实现" class="headerlink" title="CAS实现"></a>CAS实现</h3><p>跟随AtomInteger的代码我们一路往下，就能发现最终调用的是 <code>sum.misc.Unsafe</code> 这个类。看名称 Unsafe 就是一个不安全的类，这个类是利用了 Java 的类和包在可见性的的规则中的一个恰到好处处的漏洞。Unsafe 这个类为了速度，在Java的安全标准上做出了一定的妥协。</p>
+<p>再往下寻找我们发现 Unsafe的<code>compareAndSwapInt</code> 是 Native 的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">compareAndSwapInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4, <span class="keyword">int</span> var5)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，这几个 CAS 的方法应该是使用了本地的方法。所以这几个方法的具体实现需要我们自己去 jdk 的源码中搜索。</p>
+<p>在OpenJdk 的源码继续向下探索，我们发现在 <code>/jdk9u/hotspot/src/share/vm/unsafe.cpp</code> 中有这样的代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">&#123;CC <span class="string">"compareAndSetInt"</span>,   CC <span class="string">"("</span> OBJ <span class="string">"J"</span><span class="string">"I"</span><span class="string">"I"</span><span class="string">")Z"</span>,  FN_PTR(Unsafe_CompareAndSetInt)&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>这个涉及到，JNI 的调用，感兴趣自行学习。我们搜索 <code>Unsafe_CompareAndSetInt</code>后发现:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">UNSAFE_ENTRY(jboolean, Unsafe_CompareAndSetInt(JNIEnv *env, jobject unsafe, jobject obj, jlong offset, jint e, jint x)) &#123;</span><br><span class="line">  oop p = JNIHandles::resolve(obj);</span><br><span class="line">  jint* addr = (jint *)index_oop_from_field_offset_long(p, offset);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (jint)(Atomic::cmpxchg(x, addr, e)) == e;</span><br><span class="line">&#125; UNSAFE_END</span><br></pre></td></tr></table></figure>
+
+<p>最终我们终于看到了核心代码 <code>Atomic::cmpxchg</code>。</p>
+<p>继续向底层探索，在文件<code>java/jdk9u/hotspot/src/os_cpu/linux_x86/vm/atomic_linux_x86.hpp</code>有这样的代码:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> jint     <span class="title">Atomic::cmpxchg</span>    <span class="params">(jint     exchange_value, <span class="keyword">volatile</span> jint*     dest, jint     compare_value, cmpxchg_memory_order order)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> mp = os::is_MP();</span><br><span class="line">  <span class="function">__asm__ <span class="title">volatile</span> <span class="params">(LOCK_IF_MP(%<span class="number">4</span>) <span class="string">"cmpxchgl %1,(%3)"</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    : <span class="string">"=a"</span> (exchange_value)</span></span></span><br><span class="line"><span class="function"><span class="params">                    : <span class="string">"r"</span> (exchange_value), <span class="string">"a"</span> (compare_value), <span class="string">"r"</span> (dest), <span class="string">"r"</span> (mp)</span></span></span><br><span class="line"><span class="function"><span class="params">                    : <span class="string">"cc"</span>, <span class="string">"memory"</span>)</span></span>;</span><br><span class="line">  <span class="keyword">return</span> exchange_value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们通过文件名可以知道，针对不同的操作系统,JVM 对于 Atomic::cmpxchg 应该有不同的实现。windows的可自行在对应的文件中查看。</p>
+<p>我们继续看代码：</p>
+<ul>
+<li><code>__asm__</code> 的意思是这个是一段内嵌汇编代码。也就是在 C 语言中使用汇编代码。</li>
+<li>里的 <code>volatile</code>和 JAVA 有一点类似，但不是为了内存的可见性，而是告诉编译器对访问该变量的代码就不再进行优化。</li>
+<li><code>LOCK_IF_MP(%4)</code> 的意思就比较简单，就是如果操作系统是多线程的，那就增加一个 LOCK。</li>
+<li><code>cmpxchgl</code> 就是汇编版的“比较并交换”。但是我们知道比较并交换，有三个步骤，不是原子的。所以在多核情况下加一个 LOCK，由CPU硬件保证他的原子性。</li>
+<li>我们再看看 LOCK 是怎么实现的呢？我们去Intel的官网上看看，可以知道LOCK在的早期实现是直接将 cup 的总线阻塞，这样的实现可见效率是很低下的。后来优化为X86 cpu 有锁定一个特定内存地址的能力，当这个特定内存地址被锁定后，它就可以阻止其他的系统总线读取或修改这个内存地址。</li>
+</ul>
+<p>关于 CAS 的底层探索我们就到此为止。我们总结一下 JAVA 的 cas 是怎么实现的：</p>
+<ul>
+<li>java 的 cas 利用的的是 unsafe 这个类提供的 cas 操作。</li>
+<li>unsafe 的cas 依赖了的是 jvm 针对不同的操作系统实现的 Atomic::cmpxchg</li>
+<li>Atomic::cmpxchg 的实现使用了汇编的 cas 操作，并使用 cpu 硬件提供的 lock信号保证其原子性</li>
+</ul>
+<h3 id="CAS应用"><a href="#CAS应用" class="headerlink" title="CAS应用"></a>CAS应用</h3><h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> AtomicReference&lt;Thread&gt; sign =<span class="keyword">new</span> AtomicReference&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Thread current = Thread.currentThread();</span><br><span class="line">    <span class="keyword">while</span>(!sign .compareAndSet(<span class="keyword">null</span>, current))&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span> <span class="params">()</span></span>&#123;</span><br><span class="line">    Thread current = Thread.currentThread();</span><br><span class="line">    sign .compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即当lock时，则一直做while循环，知道cas操作成功。</p>
+<h4 id="AtomicInteger-的incrementAndGet"><a href="#AtomicInteger-的incrementAndGet" class="headerlink" title="AtomicInteger 的incrementAndGet()"></a>AtomicInteger 的incrementAndGet()</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public final int getAndAddInt(Object var1, long var2, int var4) &#123;</span><br><span class="line">    int var5;</span><br><span class="line">    do &#123;</span><br><span class="line">        var5 &#x3D; this.getIntVolatile(var1, var2);</span><br><span class="line">    &#125; while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line"></span><br><span class="line">    return var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与自旋锁有异曲同工之妙，就是一直while，直到操作成功为止。</p>
+<h4 id="令牌桶限流器"><a href="#令牌桶限流器" class="headerlink" title="令牌桶限流器"></a>令牌桶限流器</h4><p>所谓令牌桶限流器，就是系统以恒定的速度向桶内增加令牌。每次请求前从令牌桶里面获取令牌。如果获取到令牌就才可以进行访问。当令牌桶内没有令牌的时候，拒绝提供服务。我们来看看 <code>eureka</code> 的限流器是如何使用 CAS 来维护多线程环境下对 token 的增加和分发的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimiter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> rateToMsConversion;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger consumedTokens = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicLong lastRefillTime = <span class="keyword">new</span> AtomicLong(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RateLimiter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RateLimiter</span><span class="params">(TimeUnit averageRateUnit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (averageRateUnit) &#123;</span><br><span class="line">            <span class="keyword">case</span> SECONDS:</span><br><span class="line">                rateToMsConversion = <span class="number">1000</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MINUTES:</span><br><span class="line">                rateToMsConversion = <span class="number">60</span> * <span class="number">1000</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"TimeUnit of "</span> + averageRateUnit + <span class="string">" is not supported"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//提供给外界获取 token 的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> burstSize, <span class="keyword">long</span> averageRate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> acquire(burstSize, averageRate, System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> burstSize, <span class="keyword">long</span> averageRate, <span class="keyword">long</span> currentTimeMillis)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (burstSize &lt;= <span class="number">0</span> || averageRate &lt;= <span class="number">0</span>) &#123; <span class="comment">// Instead of throwing exception, we just let all the traffic go</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//添加token</span></span><br><span class="line">        refillToken(burstSize, averageRate, currentTimeMillis);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//消费token</span></span><br><span class="line">        <span class="keyword">return</span> consumeToken(burstSize);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refillToken</span><span class="params">(<span class="keyword">int</span> burstSize, <span class="keyword">long</span> averageRate, <span class="keyword">long</span> currentTimeMillis)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> refillTime = lastRefillTime.get();</span><br><span class="line">        <span class="keyword">long</span> timeDelta = currentTimeMillis - refillTime;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//根据频率计算需要增加多少 token</span></span><br><span class="line">        <span class="keyword">long</span> newTokens = timeDelta * averageRate / rateToMsConversion;</span><br><span class="line">        <span class="keyword">if</span> (newTokens &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> newRefillTime = refillTime == <span class="number">0</span></span><br><span class="line">                    ? currentTimeMillis</span><br><span class="line">                    : refillTime + newTokens * rateToMsConversion / averageRate;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// CAS 保证有且仅有一个线程进入填充</span></span><br><span class="line">            <span class="keyword">if</span> (lastRefillTime.compareAndSet(refillTime, newRefillTime)) &#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    <span class="keyword">int</span> currentLevel = consumedTokens.get();</span><br><span class="line">                    <span class="keyword">int</span> adjustedLevel = Math.min(currentLevel, burstSize); <span class="comment">// In case burstSize decreased</span></span><br><span class="line">                    <span class="keyword">int</span> newLevel = (<span class="keyword">int</span>) Math.max(<span class="number">0</span>, adjustedLevel - newTokens);</span><br><span class="line">                    <span class="comment">// while true 直到更新成功为止</span></span><br><span class="line">                    <span class="keyword">if</span> (consumedTokens.compareAndSet(currentLevel, newLevel)) &#123;</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">consumeToken</span><span class="params">(<span class="keyword">int</span> burstSize)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> currentLevel = consumedTokens.get();</span><br><span class="line">            <span class="keyword">if</span> (currentLevel &gt;= burstSize) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// while true 直到没有token 或者 获取到为止</span></span><br><span class="line">            <span class="keyword">if</span> (consumedTokens.compareAndSet(currentLevel, currentLevel + <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        consumedTokens.set(<span class="number">0</span>);</span><br><span class="line">        lastRefillTime.set(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以梳理一下 CAS 在令牌桶限流器的作用。就是保证在多线程情况下，不阻塞线程的填充token 和消费token。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>CAS的应用场景：</p>
+<ul>
+<li>CAS 的使用能够避免线程的阻塞。</li>
+<li>多数情况下我们使用的是 while true 自旋直到成功为止。</li>
+</ul>
+<h4 id="CAS存在问题"><a href="#CAS存在问题" class="headerlink" title="CAS存在问题"></a>CAS存在问题</h4><ol>
+<li>ABA问题。即原来的值是A，修改为B，又改为A，但CAS不能发现A值被修改过，解决办法可以携带时间戳或者版本号解决。</li>
+<li>性能问题。我们使用while true方式修改数据，响应速度是极快，但是当线程数增加时，性能明显下降，因为每个线程都要执行while true ，占用了cpu时间。</li>
+</ol>
+<h2 id="原子操作类"><a href="#原子操作类" class="headerlink" title="原子操作类"></a>原子操作类</h2><p>上面探究了CAS实现即原理，下面简单了解下atomic提供的类的使用</p>
+<h3 id="原子更新基本类型"><a href="#原子更新基本类型" class="headerlink" title="原子更新基本类型"></a>原子更新基本类型</h3><p>atomic 包提高原子更新基本类型的工具类，主要有这些：</p>
+<ol>
+<li>AtomicBoolean：以原子更新的方式更新 boolean</li>
+<li>AtomicInteger：以原子更新的方式更新 Integer</li>
+<li>AtomicLong：以原子更新的方式更新 Long</li>
+</ol>
+<p>这几个类的用法基本一致，这里以 AtomicInteger 为例总结常用的方法</p>
+<ol>
+<li>addAndGet(int delta) ：以原子方式将输入的数值与实例中原本的值相加，并返回最后的结果</li>
+<li>incrementAndGet() ：以原子的方式将实例中的原值进行加 1 操作，并返回最终相加后的结果</li>
+<li>getAndSet(int newValue)：将实例中的值更新为新值，并返回旧值</li>
+<li>getAndIncrement()：以原子的方式将实例中的原值加 1，返回的是自增前的旧值</li>
+</ol>
+<p>对于compareAndSet实现，上面已叙述过，不在赘述，都是类似。</p>
+<h3 id="原子更新数组类型"><a href="#原子更新数组类型" class="headerlink" title="原子更新数组类型"></a>原子更新数组类型</h3><p>atomic 包下提供能原子更新数组中元素的类有：</p>
+<ol>
+<li>AtomicIntegerArray：原子更新整型数组中的元素</li>
+<li>AtomicLongArray：原子更新长整型数组中的元素</li>
+<li>AtomicReferenceArray：原子更新引用类型数组中的元素</li>
+</ol>
+<p>这几个类的用法一致，就以 AtomicIntegerArray 来总结下常用的方法：</p>
+<ol>
+<li>addAndGet(int i, int delta)：以原子更新的方式将数组中索引为 i 的元素与输入值相加</li>
+<li>getAndIncrement(int i)：以原子更新的方式将数组中索引为 i 的元素自增加 </li>
+<li>compareAndSet(int i, int expect, int update)：将数组中索引为 i 的位置的元素进行更新</li>
+</ol>
+<p>可以看出，AtomicIntegerArray 与 AtomicInteger 的方法基本一致，只不过在 AtomicIntegerArray 的方法中会多一个指定数组索引位 i,以下是个demo</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicDemo</span> </span>&#123;</span><br><span class="line">    <span class="comment">//    private static AtomicInteger atomicInteger = new AtomicInteger(1);</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] value = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicIntegerArray integerArray = <span class="keyword">new</span> AtomicIntegerArray(value);</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//对数组中索引为1的位置的元素加5</span></span><br><span class="line">    <span class="keyword">int</span> result = integerArray.getAndAdd(<span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">    System.out.println(integerArray.get(<span class="number">1</span>));</span><br><span class="line">    System.out.println(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="原子更新引用类型"><a href="#原子更新引用类型" class="headerlink" title="原子更新引用类型"></a>原子更新引用类型</h3><p>如果需要原子更新引用类型变量的话，为了保证线程安全，atomic 也提供了相关的类：</p>
+<ol>
+<li>AtomicReference：原子更新引用类型</li>
+<li>AtomicReferenceFieldUpdater：原子更新引用类型里的字段</li>
+<li>AtomicMarkableReference：原子更新带有标记位的引用类型</li>
+</ol>
+<p>这几个类的使用方法也是基本一样的，以 AtomicReference 为例，来说明这些类的基本用法。下面是一个 demo</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicReference reference = <span class="keyword">new</span> AtomicReference();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        User user1 = <span class="keyword">new</span> User(<span class="string">"a"</span>, <span class="number">1</span>);</span><br><span class="line">        reference.set(user1);</span><br><span class="line">        User user2 = <span class="keyword">new</span> User(<span class="string">"b"</span>,<span class="number">2</span>);</span><br><span class="line">        User user = reference.getAndSet(user2);</span><br><span class="line">        System.out.println(user);</span><br><span class="line">        System.out.println(reference.get());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String userName;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String userName, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userName = userName;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"User&#123;"</span> +</span><br><span class="line">                <span class="string">"userName='"</span> + userName + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先将对象 User1 用 AtomicReference 进行封装，然后调用 getAndSet 方法，从结果可以看出，该方法会原子更新引用的 user 对象，变为<code>User{userName=&#39;b&#39;, age=2}</code>，返回的是原来的 user 对象 User<code>{userName=&#39;a&#39;, age=1}</code>。</p>
+<h3 id="原子更新字段类型"><a href="#原子更新字段类型" class="headerlink" title="原子更新字段类型"></a>原子更新字段类型</h3><p>如果需要更新对象的某个字段，并在多线程的情况下，能够保证线程安全，atomic 同样也提供了相应的原子操作类：</p>
+<ol>
+<li>AtomicIntegeFieldUpdater：原子更新整型字段类</li>
+<li>AtomicLongFieldUpdater：原子更新长整型字段类</li>
+<li>AtomicStampedReference：原子更新引用类型，这种更新方式会带有版本号。而为什么在更新的时候会带有版本号，是为了解决 CAS 的 ABA 问题</li>
+</ol>
+<p>要想使用原子更新字段需要两步操作：</p>
+<ol>
+<li>原子更新字段类都是抽象类，只能通过静态方法<code>newUpdater</code>来创建一个更新器，并且需要设置想要更新的类和属性；</li>
+<li>更新类的属性必须使用<code>public volatile</code>进行修饰</li>
+</ol>
+<p>这几个类提供的方法基本一致，以 AtomicIntegerFieldUpdater 为例来看看具体的使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicDemo</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">private static AtomicIntegerFieldUpdater updater = AtomicIntegerFieldUpdater.newUpdater(User.class,"age");</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    User user = <span class="keyword">new</span> User(<span class="string">"a"</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> oldValue = updater.getAndAdd(user, <span class="number">1</span>);</span><br><span class="line">    System.out.println(oldValue);</span><br><span class="line">    System.out.println(updater.get(user));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String userName, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userName = userName;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"User&#123;"</span> +</span><br><span class="line">                <span class="string">"userName='"</span> + userName + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从示例中可以看出，创建<code>AtomicIntegerFieldUpdater</code>是通过它提供的静态方法进行创建，<code>getAndAdd</code>方法会将指定的字段加上输入的值，并且返回相加之前的值。user 对象中 age 字段原值为 1，加 1 之后，可以得出 user 对象中的 age 字段的值已经变成了 2。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/06/24/谈谈volatile关键字/" data-toggle="tooltip" data-placement="top"
+                           title="谈谈volatile关键字">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAS"><span class="toc-text">CAS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS实现"><span class="toc-text">CAS实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS应用"><span class="toc-text">CAS应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#自旋锁"><span class="toc-text">自旋锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AtomicInteger-的incrementAndGet"><span class="toc-text">AtomicInteger 的incrementAndGet()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#令牌桶限流器"><span class="toc-text">令牌桶限流器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CAS存在问题"><span class="toc-text">CAS存在问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原子操作类"><span class="toc-text">原子操作类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原子更新基本类型"><span class="toc-text">原子更新基本类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原子更新数组类型"><span class="toc-text">原子更新数组类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原子更新引用类型"><span class="toc-text">原子更新引用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原子更新字段类型"><span class="toc-text">原子更新字段类型</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java"
+                           title="java">java</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://juejin.im/user/5dcea6cee51d45081b430994" target="_blank" rel="noopener">掘金</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/tom">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xiao-bai-xian-sen-12">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xiaofei">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xiaofeixx">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; xiaofei 2020
+					<span id="busuanzi_container_site_pv"" style="font-size: 12px;display:none;">总访问量：<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style="font-size: 12px;display:none;">总访客：<span id="busuanzi_value_site_uv"></span>人</span>
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://haojen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="img/header.jpg">
+</body>
+
+</html>

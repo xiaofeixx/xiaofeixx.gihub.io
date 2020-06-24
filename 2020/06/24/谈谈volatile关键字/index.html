@@ -86,7 +86,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">标签</a>
+                            <a href="/Works/">作品</a>
                         </li>
 							
 						
@@ -94,7 +94,7 @@
                         
 							
                         <li>
-                            <a href="/Works/">作品</a>
+                            <a href="/Tags/">标签</a>
                         </li>
 							
 						
@@ -197,7 +197,7 @@
 <li>保证不同线程对变量操作的内存可见性</li>
 <li>禁止内存重排序</li>
 </ol>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h3><p><img src="/img/volatile-cache1.jpg" alt="volatile-cache1"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h3><p><img src="/img/volatilecache1.jpg" alt="volatilecache1"></p>
 <p>有了高速缓存后，每个CPU处理过程变成这样：先将计算机需要用到的数据缓存在CPU高速缓存中，在CPU进行计算时，直接从高速缓存中读取数据并且计算完成之后写到缓存中，在整个运算完成后，再把缓存中的数据同步到内存。</p>
 <p>由于在多CPU中，每个线程可能会运行在不同的CPU中，并且每个线程都有自己的高速缓存，同一份数据可能会被缓存到多个CPU中，如果在不同CPU中运行的不同线程看到同一份内存的缓存值不一样，就会存在缓存不一致的问题。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ol>
@@ -205,7 +205,7 @@
 <li>缓存锁</li>
 </ol>
 <p>总线锁开销较大，所以需要优化，最好的方法就是控制锁的粒度，我们只需要保证，对于被多个CPU缓存的同一份数据是一致的就行，所以引入了缓存锁，他的核心机制就是缓存一致性协议。</p>
-<p><img src="/img/volatile-cache2.jpg" alt="volatilecache2"></p>
+<p><img src="/img/volatilecache2.jpg" alt="volatilecache2"></p>
 <h3 id="缓存一致性协议"><a href="#缓存一致性协议" class="headerlink" title="缓存一致性协议"></a>缓存一致性协议</h3><p>常见的协议有，MSI，MESI,MOSI等等，最常见的就是MESI协议；</p>
 <p>MESI表示缓存行的四种状态，分别是：</p>
 <p>  M（modify）表示共享数据只缓存当前CPU缓存中，并且是被修改状态，也就是缓存的数据和主内存中的数据不一致。</p>
@@ -217,11 +217,11 @@
 <p>CPU读请求：缓存处于M，E，S状态都可以被读取，I状态CPU还能从主存中读取数据</p>
 <p>CPU写请求：缓存处于M，E状态下才可以被写，对于S状态的写，需要将其他CPU中缓存置于无效才可写</p>
 <p>使用总线锁和缓存锁后，CPU对于内存的操作大概可以抽象成下面这样的结构，从而达成缓存一致性效果</p>
-<p><img src="/img%5Ccache-consistency.jpg" alt="cache-consistency"></p>
+<p><img src="/img%5Ccacheconsistency.jpg" alt="cacheconsistency"></p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>MESI优化带来了可见性的问题:MESI 协议虽然可以实现缓存的一致性，但是也会存在一些问题。就是各个 CPU 缓存行的状态是通过消息传递来进行的。如果 CPU0 要对一个在缓存中共享的变量进行写入，首先需要发送一个失效的消息给到其他缓存了该数据的 CPU。并且要等到他们的确认回执。CPU0 在这段时间内都会处于阻塞状态。</p>
 <p>所以为了避免阻塞带来的资源浪费。在 cpu 中引入了 Store Bufferes。</p>
 <p>CPU0 只需要在写入共享数据时，直接把数据写入到 store bufferes 中同时发送 invalidate 消息，然后继续去处理其他指令。当收到其他所有 CPU 发送了 invalidate acknowledge 消息时，再将 store bufferes 中的数据数据存储至 cache line中。最后再从缓存行同步到主内存。</p>
-<p><img src="/img%5Cstore-bufferes.jpg" alt="store-bufferes"></p>
+<p><img src="/img%5Cstorebufferes.jpg" alt="storebufferes"></p>
 <p>但是这种优化存在两个问题</p>
 <ol>
 <li><p>数据什么时候提交是不确定的，因为需要等待其他 cpu给回复才会进行数据同步。这里其实是一个异步操作</p>
@@ -244,7 +244,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    temp = <span class="number">3</span>;</span><br><span class="line">    flag = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">multiply</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(flag) &#123;</span><br><span class="line">        <span class="keyword">int</span> result = temp * temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>假如有两个线程执行上述方法，线程1先执行change方法，随后线程2再执行multiply方法，result的结果一定是9吗？结果不一定吧，如下图</p>
-<p><img src="/img%5Catomic.jpg" alt="atomic"></p>
+<p><img src="/img/atomic.jpg" alt="atomic"></p>
 <p>change对指令进行了重排序，先将flag改为了true，随后线程2直接得到结果，这时线程1才计算出结果，显然慢了一步，如果在flag前面加上volatile关键字，禁止指令重排序，当然也可以加上重量级的synchronized和Lock来保证有序性，它们能保证那一块区域里的代码都是一次性执行完毕的。</p>
 <p>另外，JMM具备一些先天的<strong>有序性</strong>,即不需要通过任何手段就可以保证的有序性，通常称为<strong>happens-before</strong>原则。<code>&lt;&gt;</code>定义了如下happens-before规则：</p>
 <blockquote>

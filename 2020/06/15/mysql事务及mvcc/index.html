@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        el隐藏组件el-scrollbar｜xiaofei&#39;s blog
+        浅谈mysql事务及mvcc｜xiaofei&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://haojen.github.io/2020/06/21/vue-el-scollbar/">
+    <link rel="canonical" href="http://haojen.github.io/2020/06/15/mysql事务及mvcc/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -159,18 +159,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>el隐藏组件el-scrollbar</h1>
+                    <h1>浅谈mysql事务及mvcc</h1>
                     
                     <span class="meta">
                          作者 Xiaofei
                         <span>
-                          日期 2020-06-21
+                          日期 2020-06-15
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#vue"
-                           title="vue">vue</a>
+                        <a class="tag" href="/tags/#mysql"
+                           title="mysql">mysql</a>
                         
 						<br/><span id="busuanzi_container_page_pv" style="display:none;">阅读量：
 <span id="busuanzi_value_page_pv"></span>次</span>
@@ -181,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            el隐藏组件el-scrollbar
+            浅谈mysql事务及mvcc
         </span>
     </div>
 </header>
@@ -192,10 +192,70 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="el-scrollbar隐藏滚动条"><a href="#el-scrollbar隐藏滚动条" class="headerlink" title="el-scrollbar隐藏滚动条"></a>el-scrollbar隐藏滚动条</h2><p>el-scrollbar是el-element提供的一个组件，但官方文档中并没有提及,所以在这里记录一下，但是确实有这个组件，我在写菜单筛选时有了这个需求，所以就用到了该组件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;test&quot; &gt;</span><br><span class="line">      &lt;div style&#x3D;&quot;width: 50px&quot;&gt;</span><br><span class="line">        &lt;el-scrollbar class&#x3D;&#39;page-component__scroll&#39;&gt;&lt;span&gt;这是一段测试用的语句&lt;&#x2F;span&gt;&lt;&#x2F;el-scrollbar&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;test&#39;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&#x2F;*为了隐藏Scrollbar的滚动条*&#x2F;</span><br><span class="line">.is-horizontal &#123;    </span><br><span class="line">    display: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.el-scrollbar__wrap &#123;</span><br><span class="line">    overflow-x: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.page-component__scroll&#123;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br><span class="line">.page-component__scroll .el-scrollbar__wrap &#123;</span><br><span class="line">    overflow-x: scroll;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
-
-<p>其中height是必须设置的。实际情况看需求，其他的css样式目的在于隐藏scollbar的滚动条，建议将该样式放到自定义全局css中或者非scoped的样式中。</p>
+                <h2 id="mysql事务"><a href="#mysql事务" class="headerlink" title="mysql事务"></a>mysql事务</h2><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><table>
+<thead>
+<tr>
+<th>级别</th>
+<th>脏读</th>
+<th>可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读未提交</td>
+<td>会</td>
+<td>会</td>
+<td>会</td>
+</tr>
+<tr>
+<td>读已提交</td>
+<td></td>
+<td>会</td>
+<td>会</td>
+</tr>
+<tr>
+<td>不可重复读</td>
+<td></td>
+<td></td>
+<td>会</td>
+</tr>
+<tr>
+<td>串行化</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>脏读：一个事务读到了另一个事务未提交的数据。</p>
+<p>可重复读：一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每对该数据进行一次修改并提交后，该事务都能查询得到最新值</p>
+<p>幻读： 事务A和事务B，事务A插入数据并提交，事务B此时显示最初的值，是看不到新插入的值的，当事务B插入数据则会发现主键冲突。貌似产生幻觉。</p>
+<h2 id="mvcc"><a href="#mvcc" class="headerlink" title="mvcc"></a>mvcc</h2><h3 id="版本链"><a href="#版本链" class="headerlink" title="版本链"></a>版本链</h3><p>对于使用<code>InnoDB</code>存储引擎的表来说，它的聚簇索引记录中都包含两个必要的隐藏列（<code>row_id</code>并不是必要的，我们创建的表中有主键或者非NULL唯一键时都不会包含<code>row_id</code>列）：</p>
+<ul>
+<li><p><code>trx_id</code>：每次对某条聚簇索引记录进行改动时，都会把对应的事务id赋值给<code>trx_id</code>隐藏列。</p>
+</li>
+<li><p><code>roll_pointer</code>：每次对某条聚簇索引记录进行改动时，都会把旧的版本写入到<code>undo日志</code>中，然后这个隐藏列就相当于一个指针，可以通过它来找到该记录修改前的信息。</p>
+<p><img src="/img/mysqlPublicLink.jpg" alt="mysqlPublicLink"></p>
+</li>
+</ul>
+<p>每次对记录进行改动，都会记录一条<code>undo日志</code>，每条<code>undo日志</code>也都有一个<code>roll_pointer</code>属性（<code>INSERT</code>操作对应的<code>undo日志</code>没有该属性，因为该记录并没有更早的版本），可以将这些<code>undo日志</code>都连起来，串成一个链表。</p>
+<p>对该记录每次更新后，都会将旧值放到一条<code>undo日志</code>中，就算是该记录的一个旧版本，随着更新次数的增多，所有的版本都会被<code>roll_pointer</code>属性连接成一个链表，我们把这个链表称之为<code>版本链</code>，版本链的头节点就是当前记录最新的值。另外，每个版本中还包含生成该版本时对应的事务id，这个信息很重要，我们稍后就会用到。</p>
+<h3 id="ReadView"><a href="#ReadView" class="headerlink" title="ReadView"></a>ReadView</h3><p>对于使用<code>READ UNCOMMITTED</code>隔离级别的事务来说，直接读取记录的最新版本就好了，对于使用<code>SERIALIZABLE</code>隔离级别的事务来说，使用加锁的方式来访问记录。对于使用<code>READ COMMITTED</code>和<code>REPEATABLE READ</code>隔离级别的事务来说，就需要用到我们上边所说的<code>版本链</code>了，核心问题就是：需要判断一下版本链中的哪个版本是当前事务可见的。所以设计<code>InnoDB</code>的大叔提出了一个<code>ReadView</code>的概念，这个<code>ReadView</code>中主要包含当前系统中还有哪些活跃的读写事务，把它们的事务id放到一个列表中，我们把这个列表命名为为<code>m_ids</code>。这样在访问某条记录时，只需要按照下边的步骤判断记录的某个版本是否可见：</p>
+<ul>
+<li>如果被访问版本的<code>trx_id</code>属性值小于<code>m_ids</code>列表中最小的事务id，表明生成该版本的事务在生成<code>ReadView</code>前已经提交，所以该版本可以被当前事务访问。</li>
+<li>如果被访问版本的<code>trx_id</code>属性值大于<code>m_ids</code>列表中最大的事务id，表明生成该版本的事务在生成<code>ReadView</code>后才生成，所以该版本不可以被当前事务访问。</li>
+<li>如果被访问版本的<code>trx_id</code>属性值在<code>m_ids</code>列表中最大的事务id和最小事务id之间，那就需要判断一下<code>trx_id</code>属性值是不是在<code>m_ids</code>列表中，如果在，说明创建<code>ReadView</code>时生成该版本的事务还是活跃的，该版本不可以被访问；如果不在，说明创建<code>ReadView</code>时生成该版本的事务已经被提交，该版本可以被访问。</li>
+</ul>
+<p>如果某个版本的数据对当前事务不可见的话，那就顺着版本链找到下一个版本的数据，继续按照上边的步骤判断可见性，依此类推，直到版本链中的最后一个版本，如果最后一个版本也不可见的话，那么就意味着该条记录对该事务不可见，查询结果就不包含该记录。</p>
+<p>在<code>MySQL</code>中，<code>READ COMMITTED</code>和<code>REPEATABLE READ</code>隔离级别的的一个非常大的区别就是它们生成<code>ReadView</code>的时机不同，我们来看一下。</p>
+<h4 id="READ-COMMITTED-—-每次读取数据前都生成一个ReadView"><a href="#READ-COMMITTED-—-每次读取数据前都生成一个ReadView" class="headerlink" title="READ COMMITTED — 每次读取数据前都生成一个ReadView"></a>READ COMMITTED — 每次读取数据前都生成一个ReadView</h4><p>比方说现在系统里有两个<code>id</code>分别为<code>100</code>、<code>200</code>的事务在执行：</p>
+<p><img src="/img/mvcc.jpg" alt="mvcc"></p>
+<p>这个<code>SELECT1</code>的执行过程如下：</p>
+<ul>
+<li>在执行<code>SELECT</code>语句时会先生成一个<code>ReadView</code>，<code>ReadView</code>的<code>m_ids</code>列表的内容就是<code>[100, 200]</code>。</li>
+<li>找出小于m_ids的事务id返回</li>
+</ul>
+<h4 id="REPEATABLE-READ-—在第一次读取数据时生成一个ReadView"><a href="#REPEATABLE-READ-—在第一次读取数据时生成一个ReadView" class="headerlink" title="REPEATABLE READ —在第一次读取数据时生成一个ReadView"></a><code>REPEATABLE READ</code> —在第一次读取数据时生成一个ReadView</h4><p>同上，只不过是ReadView的复用，自然<code>SELECT</code>查询得到的结果是重复的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从上边的描述中我们可以看出来，所谓的MVCC（Multi-Version Concurrency Control ，多版本并发控制）指的就是在使用<code>READ COMMITTD</code>、<code>REPEATABLE READ</code>这两种隔离级别的事务在执行普通的<code>SEELCT</code>操作时访问记录的版本链的过程，这样子可以使不同事务的<code>读-写</code>、<code>写-读</code>操作并发执行，从而提升系统性能。<code>READ COMMITTD</code>、<code>REPEATABLE READ</code>这两个隔离级别的一个很大不同就是生成<code>ReadView</code>的时机不同，<code>READ COMMITTD</code>在每一次进行普通<code>SELECT</code>操作前都会生成一个<code>ReadView</code>，而<code>REPEATABLE READ</code>只在第一次进行普通<code>SELECT</code>操作前生成一个<code>ReadView</code>，之后的查询操作都重复这个<code>ReadView</code>就好了。</p>
 
                 <hr>
                 
@@ -203,15 +263,10 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2020/06/24/谈谈volatile关键字/" data-toggle="tooltip" data-placement="top"
-                           title="谈谈volatile关键字">&larr; Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
                         <a href="/2020/06/18/浅谈HTTP/" data-toggle="tooltip" data-placement="top"
-                           title="浅谈HTTP">Next Post &rarr;</a>
+                           title="浅谈HTTP">&larr; Previous Post</a>
                     </li>
+                    
                     
                 </ul>
 
@@ -229,7 +284,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#el-scrollbar隐藏滚动条"><span class="toc-text">el-scrollbar隐藏滚动条</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql事务"><span class="toc-text">mysql事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隔离级别"><span class="toc-text">隔离级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mvcc"><span class="toc-text">mvcc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#版本链"><span class="toc-text">版本链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadView"><span class="toc-text">ReadView</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#READ-COMMITTED-—-每次读取数据前都生成一个ReadView"><span class="toc-text">READ COMMITTED — 每次读取数据前都生成一个ReadView</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#REPEATABLE-READ-—在第一次读取数据时生成一个ReadView"><span class="toc-text">REPEATABLE READ —在第一次读取数据时生成一个ReadView</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -251,8 +306,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#vue"
-                           title="vue">vue</a>
+                        <a class="tag" href="/tags/#mysql"
+                           title="mysql">mysql</a>
                         
                     </div>
                 </section>

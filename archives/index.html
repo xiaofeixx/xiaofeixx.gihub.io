@@ -86,7 +86,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">标签</a>
+                            <a href="/Works/">作品</a>
                         </li>
 							
 						
@@ -94,7 +94,7 @@
                         
 							
                         <li>
-                            <a href="/Works/">作品</a>
+                            <a href="/Tags/">标签</a>
                         </li>
 							
 						
@@ -297,6 +297,64 @@ H..
 
 
 
+<div class="post-preview "
+     style="background-image: url('/img/default-image.jpg')">
+    <a href="/2020/06/15/mysql事务及mvcc/">
+        <h2 class="post-title">
+            浅谈mysql事务及mvcc
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-15
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                mysql事务隔离级别
+
+
+级别
+脏读
+可重复读
+幻读
+
+
+
+读未提交
+会
+会
+会
+
+
+读已提交
+
+会
+会
+
+
+不可重复读
+
+
+会
+
+
+串行化
+
+
+
+
+
+脏读：一个事务读到了另一个事务未提交的数据。
+可重复读：一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每对该数据进行一次修改并..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
 
 <!-- 翻页 pager -->
 
@@ -388,13 +446,13 @@ H..
                 <div class="tags">
                     
                     
+                    <a href="/tags/#mysql" title="mysql"
+                       rel="1">mysql</a>
+                    
+                    
+                    
                     <a href="/tags/#java" title="java"
                        rel="3">java</a>
-                    
-                    
-                    
-                    <a href="/tags/#vue" title="vue"
-                       rel="1">vue</a>
                     
                     
                     
@@ -405,6 +463,11 @@ H..
                     
                     <a href="/tags/#web" title="web"
                        rel="1">web</a>
+                    
+                    
+                    
+                    <a href="/tags/#vue" title="vue"
+                       rel="1">vue</a>
                     
                     
                 </div>

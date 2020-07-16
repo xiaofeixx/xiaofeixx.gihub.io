@@ -22,7 +22,7 @@
         
     </title>
 
-    <link rel="canonical" href="http://haojen.github.io/tags/vue/">
+    <link rel="canonical" href="http://haojen.github.io/tags/mysql/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -167,18 +167,52 @@
 
 <div class="post-preview "
      style="background-image: url('/img/default-image.jpg')">
-    <a href="/2020/06/21/vue-el-scollbar/">
+    <a href="/2020/06/15/mysql事务及mvcc/">
         <h2 class="post-title">
-            el隐藏组件el-scrollbar
+            浅谈mysql事务及mvcc
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-21
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-15
         </p>
         
         <div class="post-content-preview">
             <p>
-                el-scrollbar隐藏滚动条el-scrollbar是el-element提供的一个组件，但官方文档中并没有提及,所以在这里记录一下，但是确实有这个组件，我在写菜单筛选时有了这个需求，所以就用到了该组件
-&lt;template&gt;    &lt;div id&#x3D;&quot;t..
+                mysql事务隔离级别
+
+
+级别
+脏读
+可重复读
+幻读
+
+
+
+读未提交
+会
+会
+会
+
+
+读已提交
+
+会
+会
+
+
+不可重复读
+
+
+会
+
+
+串行化
+
+
+
+
+
+脏读：一个事务读到了另一个事务未提交的数据。
+可重复读：一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每对该数据进行一次修改并..
             </p>
         </div>
     </a>
